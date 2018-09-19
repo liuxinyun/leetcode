@@ -17,44 +17,56 @@ public class TwoListSum {
         ListNode l1 = new ListNode(5);
         l1.setNext(new ListNode(9));
         ListNode l2 = new ListNode(5);
-        ListNode listNode = addTwoNumbers(l1, l2);
+        ListNode listNode = fix(l1, l2);
         ListUtil.printList(listNode);
     }
 
+    /**
+     * 初始思路所想
+     */
     private ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode result;
         int sum = l1.getVal() + l2.getVal();
-        int d = 0;
-        if (sum < 10){
-            result = new ListNode(sum);
-        }else {
-            d = 1;
-            result = new ListNode(sum % 10);
-        }
+        int d = sum / 10;
+        ListNode result = new ListNode(sum % 10);
         l1 = l1.getNext();
         l2 = l2.getNext();
 
         ListNode temp;
-        while (d != 0 || l1 != null || l2!=null) {
+        while (d > 0 || l1 != null || l2!=null) {
             int v1 = (l1 == null) ? 0 : l1.getVal();
             int v2 = (l2 == null) ? 0 : l2.getVal();
             sum = v1 + v2 + d;
-            if (sum < 10){
-                d = 0;
-                temp = new ListNode(sum);
-            }else {
-                d = 1;
-                temp = new ListNode(sum % 10);
-            }
+            d = sum / 10;
+            temp = new ListNode(sum % 10);
             // 此处是反向排列，最终需要反转
             temp.setNext(result);
             result = temp;
 
-            l1 = (l1 == null) ? null : l1.getNext();
-            l2 = (l2 == null) ? null : l2.getNext();
+            if (l1 != null) l1 = l1.getNext();
+            if (l2 != null) l2 = l2.getNext();
         }
 
         return ListUtil.convert(result);
+    }
+
+    /**
+     * 充分利用变量复制后的引用传递，不需要再反转
+     */
+    private ListNode fix(ListNode l1, ListNode l2) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode curr = dummyHead;
+        int carry = 0;
+        while (l1 != null || l2 != null || carry > 0) {
+            int x = (l1 == null) ? 0 : l1.getVal();
+            int y = (l2 == null) ? 0 : l2.getVal();
+            int sum = carry + x + y;
+            carry = sum / 10;
+            curr.setNext(new ListNode(sum % 10));
+            curr = curr.getNext();
+            if (l1 != null) l1 = l1.getNext();
+            if (l2 != null) l2 = l2.getNext();
+        }
+        return dummyHead.getNext();
     }
 
 }
