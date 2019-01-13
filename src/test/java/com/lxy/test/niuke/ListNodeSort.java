@@ -1,4 +1,4 @@
-package com.lxy.test.temp;
+package com.lxy.test.niuke;
 
 import com.lxy.leetcode.common.ListNode;
 import com.lxy.leetcode.util.ListUtil;

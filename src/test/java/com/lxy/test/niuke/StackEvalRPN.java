@@ -1,4 +1,4 @@
-package com.lxy.test.temp;
+package com.lxy.test.niuke;
 
 import org.junit.Test;
 
