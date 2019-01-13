@@ -1,4 +1,4 @@
-package com.lxy.test.onehundred.one;
+package com.lxy.test.t100;
 
 import com.lxy.leetcode.util.ArrayUtil;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import java.util.Map;
  * @author liuxinyun
  * @date 2018/9/19 0:18
  */
-public class TwoSum {
+public class T0001TwoSum {
 
     @Test
     public void sum(){

@@ -1,23 +1,20 @@
-package com.lxy.test.onehundred.two;
+package com.lxy.test.t100;
 
 import com.lxy.leetcode.common.ListNode;
 import com.lxy.leetcode.util.ListUtil;
 import org.junit.Test;
 
 /**
- * 备注：因为定义实体使用了属性私有，通过公有方法设置值，所以在LeetCode上提交运行时需要将get，set替换
- *
  * @author liuxinyun
  * @date 2018/9/19 21:47
  */
-public class TwoListSum {
+public class T0002TwoListSum {
 
     @Test
     public void test(){
-        ListNode l1 = new ListNode(5);
-        l1.setNext(new ListNode(9));
+        ListNode l1 = new ListNode(5).of(9);
         ListNode l2 = new ListNode(5);
-        ListNode listNode = fix(l1, l2);
+        ListNode listNode = addTwoNumbers(l1, l2);
         ListUtil.printList(listNode);
     }
 
@@ -25,25 +22,25 @@ public class TwoListSum {
      * 初始思路所想
      */
     private ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int sum = l1.getVal() + l2.getVal();
+        int sum = l1.val + l2.val;
         int d = sum / 10;
         ListNode result = new ListNode(sum % 10);
-        l1 = l1.getNext();
-        l2 = l2.getNext();
+        l1 = l1.next;
+        l2 = l2.next;
 
         ListNode temp;
         while (d > 0 || l1 != null || l2!=null) {
-            int v1 = (l1 == null) ? 0 : l1.getVal();
-            int v2 = (l2 == null) ? 0 : l2.getVal();
+            int v1 = (l1 == null) ? 0 : l1.val;
+            int v2 = (l2 == null) ? 0 : l2.val;
             sum = v1 + v2 + d;
             d = sum / 10;
             temp = new ListNode(sum % 10);
             // 此处是反向排列，最终需要反转
-            temp.setNext(result);
+            temp.next = result;
             result = temp;
 
-            if (l1 != null) l1 = l1.getNext();
-            if (l2 != null) l2 = l2.getNext();
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
         }
 
         return ListUtil.convert(result);
@@ -57,16 +54,16 @@ public class TwoListSum {
         ListNode curr = dummyHead;
         int carry = 0;
         while (l1 != null || l2 != null || carry > 0) {
-            int x = (l1 == null) ? 0 : l1.getVal();
-            int y = (l2 == null) ? 0 : l2.getVal();
+            int x = (l1 == null) ? 0 : l1.val;
+            int y = (l2 == null) ? 0 : l2.val;
             int sum = carry + x + y;
             carry = sum / 10;
-            curr.setNext(new ListNode(sum % 10));
-            curr = curr.getNext();
-            if (l1 != null) l1 = l1.getNext();
-            if (l2 != null) l2 = l2.getNext();
+            curr.next = new ListNode(sum % 10);
+            curr = curr.next;
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
         }
-        return dummyHead.getNext();
+        return dummyHead.next;
     }
 
 }

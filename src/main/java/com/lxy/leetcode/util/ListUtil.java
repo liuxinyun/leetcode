@@ -9,13 +9,12 @@ import com.lxy.leetcode.common.ListNode;
 public class ListUtil {
 
     public static void printList(ListNode ln) {
-        while (true){
-            System.out.print(ln.getVal());
-            ln = ln.getNext();
-            if (ln == null) {
-                break;
+        ListNode cur = ln;
+        while (cur != null){
+            System.out.print(cur.val);
+            if ((cur=cur.next) != null) {
+                System.out.print("->");
             }
-            System.out.print("->");
         }
     }
 
@@ -23,15 +22,11 @@ public class ListUtil {
         if (ln == null) {
             return null;
         }
-        ListNode result = new ListNode(ln.getVal());
+        ListNode result = new ListNode(ln.val);
         ListNode temp;
-        while (true){
-            ln = ln.getNext();
-            if (ln == null) {
-                break;
-            }
-            temp = new ListNode(ln.getVal());
-            temp.setNext(result);
+        while ((ln = ln.next) != null){
+            temp = new ListNode(ln.val);
+            temp.next = result;
             result = temp;
         }
         return result;

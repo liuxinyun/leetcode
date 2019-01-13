@@ -1,4 +1,4 @@
-package com.lxy.test.onehundred.three;
+package com.lxy.test.t100;
 
 import org.junit.Test;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
  * @author liuxinyun
  * @date 2018/9/29 21:00
  */
-public class LongestSubstr {
+public class T0003LongestSubstr {
 
     @Test
     public void test() {
