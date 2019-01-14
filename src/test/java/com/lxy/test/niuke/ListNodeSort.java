@@ -60,7 +60,7 @@ public class ListNodeSort {
         if (head==null || head.next==null)
             return head;
         // 获取中间节点
-        ListNode mid = getMid(head);
+        ListNode mid = ListUtil.getMid(head);
         ListNode right = mid.next;
         mid.next = null;
         return merge(sortList(head), sortList(right));
@@ -104,23 +104,5 @@ public class ListNodeSort {
 
         return result;
     }
-
-    /**
-     * 获取中间节点
-     */
-    private ListNode getMid(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-        //快慢指针
-        ListNode slow = head, quick = head;
-        //快2步，慢1步，当快指针到末尾的时候，慢指针到中间
-        while (quick.next != null && quick.next.next != null) {
-            slow = slow.next;
-            quick = quick.next.next;
-        }
-        return slow;
-    }
-
 
 }

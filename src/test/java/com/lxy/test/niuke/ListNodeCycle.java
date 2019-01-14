@@ -22,52 +22,31 @@ public class ListNodeCycle {
         l2.next = l3;
         l3.next = l4;
         l4.next = l2;
-        boolean hasCycle = hasCycle(l1);
+        boolean hasCycle = ListUtil.hasCycle(l1);
         System.out.println(hasCycle);
-        ListUtil.printList(detectCycle(l1));
-    }
-
-    private boolean hasCycle(ListNode head) {
-        ListNode slow, fast;
-        slow = fast = head;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-            // 快慢指针，两指针相遇则有环。
-            // 如果有环，且环长是n，则会循环n次。（因为快指针每次比慢指针多走一步，从进入环开始，快指针需要把把环转一圈才能追上慢指针）
-            if (slow == fast) {
-                return true;
-            }
-        }
-        return false;
+        //ListUtil.printList(detectCycle(l1));
     }
 
     /**
      * 如果有环找出入环位置
      */
     private ListNode detectCycle(ListNode head) {
-        ListNode slow, fast;
-        slow = fast = head;
-        boolean cycle = false;
+        ListNode slow=head, fast=head;
         while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
             // 快慢指针，两指针相遇则有环。
             // 如果有环，且环长是n，则会循环n次。（因为快指针每次比慢指针多走一步，从进入环开始，快指针需要把把环转一圈才能追上慢指针）
             if (slow == fast) {
-                cycle = true;
-                break;
+                // 如果有环，将两指针分别放在链表头(X)和相遇位置(Z)，并改为相同速度推进，则两指针在环开始位置相遇(Y)。
+                // 2(a+b) = a+b+n*(b+c)>>>a=(n-1)(b+c)+c，b+c是环的长度
+                fast = head;
+                while (slow != fast) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;
             }
-        }
-        if (cycle) {
-            // 如果有环，将两指针分别放在链表头(X)和相遇位置(Z)，并改为相同速度推进，则两指针在环开始位置相遇(Y)。
-            // 2(a+b) = a+b+n*(b+c)>>>a=(n-1)(b+c)+c，b+c是环的长度
-            fast = head;
-            while (slow != fast) {
-                slow = slow.next;
-                fast = fast.next;
-            }
-            return slow;
         }
         return null;
     }
