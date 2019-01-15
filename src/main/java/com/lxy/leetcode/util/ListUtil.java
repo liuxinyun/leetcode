@@ -29,7 +29,7 @@ public class ListUtil {
      */
     public static ListNode convert(ListNode ln) {
         if (ln == null || ln.next == null) {
-            return null;
+            return ln;
         }
         ListNode post = ln.next;
         ln.next = null;

@@ -4,8 +4,6 @@ import com.lxy.leetcode.common.ListNode;
 import com.lxy.leetcode.util.ListUtil;
 import org.junit.Test;
 
-import java.util.List;
-
 /**
  * 单向链表重排序
  *  L0→Ln →L1→L(n-1)→L2→L(n-2)→…
