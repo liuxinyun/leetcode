@@ -6,7 +6,7 @@ import java.util.Scanner;
  * @author liuxinyun
  * @date 2019/1/23 23:57
  */
-public class PasswordCheck {
+public class StringPasswordCheck {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
