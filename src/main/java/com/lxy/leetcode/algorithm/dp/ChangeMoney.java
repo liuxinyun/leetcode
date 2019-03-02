@@ -19,16 +19,19 @@ public class ChangeMoney {
      * @return
      */
     public static int leastWay(int[] a, int des){
-        if (a == null || a.length==0 || des<=0)
+        if (a == null || a.length==0 || des<=0) {
             return 0;
+        }
         //dp[n]表示组成n所使用的最少硬币数
         int[] dp = new int[des+1];
         for (int i=1; i<=des; i++){
-            if (a[0]<=1)
+            if (a[0]<=1) {
                 dp[i] = dp[i-a[0]]+1;
+            }
             for (int j=1; j<a.length; j++){
-                if (a[j]<=i)
+                if (a[j]<=i) {
                     dp[i] =  dp[i]<(dp[i-a[j]]+1) ? dp[i] : dp[i-a[j]]+1;
+                }
             }
         }
         return dp[des];
@@ -41,20 +44,23 @@ public class ChangeMoney {
      * @return
      */
     public static int countWays(int[] a, int des){
-        if (a == null || a.length==0 || des<=0)
+        if (a == null || a.length==0 || des<=0) {
             return 0;
+        }
         //dp[n][m]表示使用数组前n个数凑成m的方式
         int[][] dp = new int[a.length][des+1];
         dp[0][0] = 1;
-        for (int i=1; a[0]*i<=des; i++)
+        for (int i=1; a[0]*i<=des; i++) {
             dp[0][a[0]*i] = 1;
+        }
         for (int i=1; i<a.length; i++){
             dp[i][0] = 1;
             for (int j=1; j<=des; j++){
-                if (a[i]>j)
+                if (a[i]>j) {
                     dp[i][j] = dp[i-1][j];
-                else
+                } else {
                     dp[i][j] = dp[i-1][j]+dp[i-1][j-a[i]];
+                }
             }
         }
         return dp[a.length-1][des];

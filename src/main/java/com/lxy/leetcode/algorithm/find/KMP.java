@@ -29,10 +29,10 @@ public class KMP {
                 j = 0;
             }
         }
-        if (j == p.length())
+        if (j == p.length()) {
             return i-p.length();
-        else
-            return -1;
+        }
+        return -1;
     }
 
     /**
@@ -56,10 +56,10 @@ public class KMP {
                 j = next[j];//j回到指定位置
             }
         }
-        if (j == p.length())
+        if (j == p.length()) {
             return i-p.length();
-        else
-            return -1;
+        }
+        return -1;
     }
 
     /**
@@ -77,10 +77,12 @@ public class KMP {
             if (k==-1 || p[j]==p[k]){
                 //next[++j] = ++k;
                 //下面是进行了进一步的优化，防止出现p[next[j]]=p[j]
-                if (p[++j] == p[++k])//当两个字符相等时跳过
+                if (p[++j] == p[++k]){
+                    //当两个字符相等时跳过
                     next[j] = next[k];
-                else
+                } else {
                     next[j] = k;
+                }
             }else {
                 k = next[k];
             }

@@ -12,8 +12,9 @@ package com.lxy.leetcode.algorithm.dp;
 public class UpStairs {
 
     public static int countWays(int n){
-        if (n<=2)
+        if (n<=2) {
             return n;
+        }
         int[] dp = new int[n+1];
         dp[1] = 1;
         dp[2] = 2;

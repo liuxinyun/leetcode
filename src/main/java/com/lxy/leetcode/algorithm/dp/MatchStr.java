@@ -22,25 +22,33 @@ public class MatchStr {
      */
     public static boolean isMatch(String s, String p){
         int countXing = 0;
-        for(char c : p.toCharArray())
-            if (c == '*')
+        for(char c : p.toCharArray()) {
+            if (c == '*') {
                 countXing++;
-        if(p.length() - countXing > s.length() ) //说明p去掉通配符，长度也长于s
+            }
+        }
+        if(p.length() - countXing > s.length() ) {
+            //说明p去掉通配符，长度也长于s
             return false;
+        }
 
         //动态规划设置初值
         boolean[][] dp = new boolean[p.length()+1][s.length()+1];
         dp[0][0] = true;
 
         for(int i=1; i<=p.length(); i++) {
-            char p_char = p.charAt(i-1);
-            dp[i][0] = dp[i-1][0] && p_char=='*'; //设置每次循环的初值，即当星号不出现在首位时，匹配字符串的初值都为false
+            char pChar = p.charAt(i-1);
+            //设置每次循环的初值，即当星号不出现在首位时，匹配字符串的初值都为false
+            dp[i][0] = dp[i-1][0] && pChar=='*';
             for(int j=1; j<=s.length(); j++) {
-                char s_char = s.charAt(j-1);
-                if(p_char == '*')
-                    dp[i][j] = dp[i-1][j] || dp[i][j-1]; //动态规划递推式（星号） 表示星号可以匹配0个（决定于上次外循环的结果）或者多个（决定于刚才内循环的结果）
-                else
-                    dp[i][j] = dp[i-1][j-1] && (p_char=='?' || s_char == p_char); //动态规划递推式（非星号） 表示dp值取决于上次的状态和当前状态
+                char sChar = s.charAt(j-1);
+                if(pChar == '*') {
+                    //动态规划递推式（星号） 表示星号可以匹配0个（决定于上次外循环的结果）或者多个（决定于刚才内循环的结果）
+                    dp[i][j] = dp[i-1][j] || dp[i][j-1];
+                } else {
+                    //动态规划递推式（非星号） 表示dp值取决于上次的状态和当前状态
+                    dp[i][j] = dp[i-1][j-1] && (pChar=='?' || sChar == pChar);
+                }
             }
         }
         return dp[p.length()][s.length()];
@@ -59,15 +67,17 @@ public class MatchStr {
         dp[0][0] = true;
 
         for(int i=1; i<=s2.length(); i++) {
-            char s2_char = s2.charAt(i-1);
-            dp[i][0] = dp[i-1][0] && s2_char=='*'; //设置每次循环的初值，即当星号不出现在首位时，匹配字符串的初值都为false
+            char s2Char = s2.charAt(i-1);
+            //设置每次循环的初值，即当星号不出现在首位时，匹配字符串的初值都为false
+            dp[i][0] = dp[i-1][0] && s2Char=='*';
             for(int j=1; j<=s1.length(); j++) {
-                char s1_char = s1.charAt(j-1);
+                char s1Char = s1.charAt(j-1);
                 dp[0][j] = dp[0][j-1] && s1.charAt(j-1)=='*';
-                if(s2_char=='*' || s1_char=='*') {
-                    dp[i][j] = dp[i-1][j] || dp[i][j-1]; //动态规划递推式（星号） 表示星号可以匹配0个（决定于上次外循环的结果）或者多个（决定于刚才内循环的结果）
+                if(s2Char=='*' || s1Char=='*') {
+                    //动态规划递推式（星号） 表示星号可以匹配0个（决定于上次外循环的结果）或者多个（决定于刚才内循环的结果）
+                    dp[i][j] = dp[i-1][j] || dp[i][j-1];
                 } else {
-                    dp[i][j] = dp[i-1][j-1] && (s1_char=='?' || s2_char=='?' || s1_char == s2_char);
+                    dp[i][j] = dp[i-1][j-1] && (s1Char=='?' || s2Char=='?' || s1Char == s2Char);
                 }
             }
         }

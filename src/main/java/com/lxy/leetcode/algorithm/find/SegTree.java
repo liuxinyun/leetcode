@@ -73,20 +73,23 @@ public class SegTree {
      */
     public int queryMin(int root, int nstart, int nend, int qstart, int qend){
         //查询区间与当前区间没有交集
-        if (qstart>nend || qend<nstart)
+        if (qstart>nend || qend<nstart) {
             return -0;
+        }
         //当前区间在查询区间内
-        if (qstart<=nstart && qend>=nend)
+        if (qstart<=nstart && qend>=nend) {
             return segTree[root].getMin();
+        }
         //分别查询左右子树，返回两者中种的较小值
         //延迟标志向下传递
         pushDown(root);
         int mid = (nstart+nend)>>1;
         if (queryMin(2*root+1, nstart, mid, qstart, qend) <=
-                queryMin(2*root+2, mid+1, nend, qstart, qend))
+                queryMin(2*root+2, mid+1, nend, qstart, qend)) {
             return queryMin(2*root+1, nstart, mid, qstart, qend);
-        else
+        } else {
             return queryMin(2*root+2, mid+1, nend, qstart, qend);
+        }
     }
 
     /**
@@ -101,8 +104,9 @@ public class SegTree {
      */
     public void update(int root, int nstart, int nend, int ustart, int uend, int addVal){
         //待更新区间和当前节点表示区间没有交集
-        if (ustart>nend || uend<nstart)
+        if (ustart>nend || uend<nstart) {
             return;
+        }
         //当前节点表示区间在待更新区间内
         if (ustart<=nstart && uend>= nend){
             segTree[root].addMark = segTree[root].getAddMark()+addVal;

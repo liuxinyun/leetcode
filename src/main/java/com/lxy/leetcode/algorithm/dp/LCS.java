@@ -26,10 +26,11 @@ public class LCS {
         //从后向前
         for (int i=c1.length-1; i>=0; i--){
             for (int j=c2.length-1; j>=0; j--){
-                if (c1[i] == c2[j])
+                if (c1[i] == c2[j]) {
                     dp[i][j] = dp[i+1][j+1] + 1;
-                else
+                } else {
                     dp[i][j] = Math.max(dp[i+1][j], dp[i][j+1]);
+                }
             }
         }
         int i=0, j=0;
@@ -39,10 +40,11 @@ public class LCS {
                 i++;
                 j++;
             }else{
-                if (dp[i+1][j] >= dp[i][j+1])
+                if (dp[i+1][j] >= dp[i][j+1]) {
                     i++;
-                else
+                } else {
                     j++;
+                }
             }
         }
         return sb.toString();
@@ -62,16 +64,18 @@ public class LCS {
         //第一列赋初值
         for (int i=0; i<c1.length; i++){
             if (c1[i] == c2[0]){
-                for (int j=i; j<c1.length; j++)
+                for (int j=i; j<c1.length; j++) {
                     dp[j][0] = 1;
+                }
                 break;
             }
         }
         //第一行赋初值
         for (int i=1; i<c2.length; i++){
             if (c1[0] == c2[i]){
-                for (int j=i; j<c2.length; j++)
+                for (int j=i; j<c2.length; j++) {
                     dp[0][j] = 1;
+                }
                 break;
             }
         }
@@ -79,10 +83,11 @@ public class LCS {
         //从前向后
         for (int i=1; i<c1.length; i++){
             for (int j=1; j<c2.length; j++){
-                if (c1[i] == c2[j])
+                if (c1[i] == c2[j]) {
                     dp[i][j] = Math.max(dp[i-1][j-1]+1, Math.max(dp[i-1][j],dp[i][j-1]));
-                else
+                } else {
                     dp[i][j] = Math.max(dp[i-1][j],dp[i][j-1]);
+                }
             }
         }
 
@@ -102,10 +107,11 @@ public class LCS {
         int max=0, x=0, y=0;//存储最大时的位置
         for (int i=1; i<=c1.length; i++){
             for (int j=1; j<=c2.length; j++){
-                if (c1[i-1] == c2[j-1])
+                if (c1[i-1] == c2[j-1]) {
                     dp[i][j] = dp[i-1][j-1] + 1;
-                else
+                } else {
                     dp[i][j] = 0;
+                }
                 if (dp[i][j] > max){
                     max = dp[i][j];
                     x=i;
