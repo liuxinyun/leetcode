@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class TreeTraversal {
 
-    private ArrayList<Integer> result = new ArrayList<>();
+    private List<Integer> result = new ArrayList<>();
 
     @Test
     public void test() {
@@ -29,14 +29,14 @@ public class TreeTraversal {
         t5.right = t6;
         t4.left = t2;
         t4.right = t5;
-        ArrayList<Integer> list = unRecursiveInOrderTraversal(t4);
+        List<Integer> list = unRecursiveInOrderTraversal(t4);
         ArrayUtil.printList(list);
     }
 
     /**
      * 递归后序遍历：左->右->父
      */
-    private ArrayList<Integer> postOrderTraversal(TreeNode root) {
+    private List<Integer> postOrderTraversal(TreeNode root) {
         if (root == null)
             return result;
         if (root.left != null)
@@ -51,8 +51,8 @@ public class TreeTraversal {
      * 非递归后序遍历
      * 利用栈的先进后出的特性
      */
-    private ArrayList<Integer> unRecursivePostOrderTraversal(TreeNode root) {
-        ArrayList<Integer> out = new ArrayList<>();
+    private List<Integer> unRecursivePostOrderTraversal(TreeNode root) {
+        List<Integer> out = new ArrayList<>();
         if (root == null)
             return out;
         Stack<TreeNode> s1 = new Stack<>();
@@ -74,7 +74,7 @@ public class TreeTraversal {
     /**
      * 递归先序遍历：父->左->右
      */
-    private ArrayList<Integer> preOrderTraversal(TreeNode root) {
+    private List<Integer> preOrderTraversal(TreeNode root) {
         if (root == null)
             return result;
         result.add(root.val);
@@ -89,8 +89,8 @@ public class TreeTraversal {
      * 非递归先序遍历
      * 利用栈的先进后出的特性
      */
-    private ArrayList<Integer> unRecursivePreOrderTraversal(TreeNode root) {
-        ArrayList<Integer> out = new ArrayList<>();
+    private List<Integer> unRecursivePreOrderTraversal(TreeNode root) {
+        List<Integer> out = new ArrayList<>();
         if (root == null)
             return out;
         Stack<TreeNode> s1 = new Stack<>();
@@ -109,7 +109,7 @@ public class TreeTraversal {
     /**
      * 递归中序遍历：左->父->右
      */
-    private ArrayList<Integer> inOrderTraversal(TreeNode root) {
+    private List<Integer> inOrderTraversal(TreeNode root) {
         if (root == null)
             return result;
         if (root.left != null)
@@ -124,8 +124,8 @@ public class TreeTraversal {
      * 非递归中序遍历
      * 利用栈的先进后出的特性
      */
-    private ArrayList<Integer> unRecursiveInOrderTraversal(TreeNode root) {
-        ArrayList<Integer> out = new ArrayList<>();
+    private List<Integer> unRecursiveInOrderTraversal(TreeNode root) {
+        List<Integer> out = new ArrayList<>();
         if (root == null)
             return out;
         Stack<TreeNode> s1 = new Stack<>();
@@ -143,6 +143,42 @@ public class TreeTraversal {
             }else {
                 s1.push(p.left);
                 p.left = null;
+            }
+        }
+        return out;
+    }
+
+    /**
+     * 不使用递归和栈遍历
+     * 使用线索树的思想
+     *
+     * @param root
+     */
+    private List<Integer> morrisTraversal(TreeNode root) {
+        List<Integer> out = new ArrayList<>();
+        if (root == null) {
+            return out;
+        }
+        TreeNode cur,pre;
+        cur = root;
+        while (cur != null){
+            if (cur.left == null) {
+                out.add(cur.val);
+                cur = cur.right;
+            }else {
+                // 找前驱节点
+                pre = cur.left;
+                while (pre.right != null && pre.right !=cur) {
+                    pre = pre.right;
+                }
+                if (pre.right == null) {
+                    pre.right = cur;
+                    cur = cur.left;
+                }else {
+                    pre.right = null;
+                    out.add(cur.val);
+                    cur = cur.right;
+                }
             }
         }
         return out;
