@@ -1,4 +1,4 @@
-package com.lxy.test.t700;
+package com.lxy.test.t600;
 
 /**
  * 4个按钮的作用效果，考虑到后边再多灯泡也是重复前边灯泡的情况，将4个按钮效果用最少灯泡来表示

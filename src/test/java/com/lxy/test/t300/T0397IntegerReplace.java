@@ -1,4 +1,4 @@
-package com.lxy.test.t400;
+package com.lxy.test.t300;
 
 /**
  * 给定一个正整数 n，你可以做如下操作：

@@ -1,4 +1,4 @@
-package com.lxy.test.t100;
+package com.lxy.test.t000;
 
 import com.lxy.leetcode.util.ArrayUtil;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.lxy.test.t400;
+package com.lxy.test.t300;
 
 /**
  * 初始有n个灯泡关闭

@@ -1,4 +1,4 @@
-package com.lxy.test.t700;
+package com.lxy.test.t600;
 
 import com.lxy.leetcode.common.TreeNode;
 
