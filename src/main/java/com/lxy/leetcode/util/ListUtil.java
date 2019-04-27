@@ -23,6 +23,74 @@ public class ListUtil {
     }
 
     /**
+     * 删除指定节点
+     * @param head
+     * @param toDelete
+     */
+    public static void delete(ListNode head, ListNode toDelete) {
+        if (toDelete == null) {
+            return;
+        }
+        if (toDelete.next != null) {
+            // 要删除中间节点
+            toDelete.val = toDelete.next.val;
+            toDelete.next = toDelete.next.next;
+        }else {
+            // 要删除最后一个节点
+            if (head == toDelete) {
+                // 只有一个 节点
+                head = null;
+            }else {
+                // 找到倒数第二个节点
+                ListNode node = head;
+                while (node.next != toDelete) {
+                    node = node.next;
+                }
+                node.next = null;
+            }
+        }
+    }
+
+    /**
+     * 去除重复节点，只保留一个
+     * @param head
+     */
+    public static void deleteDuplicates(ListNode head) {
+        if (head==null || head.next==null) {
+            return;
+        }
+        ListNode cur = head;
+        while (cur.next != null) {
+            if (cur.val == cur.next.val) {
+                cur.next = cur.next.next;
+            }else {
+                cur = cur.next;
+            }
+        }
+    }
+
+    /**
+     * 移除链表中的指定值
+     *
+     * @param head 链表
+     * @param val 指定值
+     * @return 移除后的链表
+     */
+    public static ListNode remove(ListNode head, int val) {
+        ListNode dump = new ListNode(-1);
+        dump.next = head;
+        ListNode cur = dump;
+        while (cur.next != null) {
+            if (cur.next.val == val) {
+                cur.next = cur.next.next;
+            }else {
+                cur = cur.next;
+            }
+        }
+        return dump.next;
+    }
+
+    /**
      * 反转链表
      * @param ln 链表
      * @return 反转后的链表
