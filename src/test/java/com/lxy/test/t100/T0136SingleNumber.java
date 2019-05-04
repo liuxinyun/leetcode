@@ -2,11 +2,13 @@ package com.lxy.test.t100;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * 只出现一次的数字
  *
  * version1: 找出一个数组中一个只出现一次的数字，其他数字都出现两次：将所有数字异或，得到的结果即为只出现一次的。
- * version2: 找出一个数组中两个只出现一次的数字，其他数字都出现两次：将所有数字异或，得到的结果即为x=a^b, index为x中第一个为1的位，则a 和b中第index为必然有一个为1，有一个为0。
+ * version2: 找出一个数组中两个只出现一次的数字，其他数字都出现两次：将所有数字异或，得到的结果即为x=a^b, index为x中第一个为1的位，则a 和b中第index位必然有一个为1，有一个为0。
  * 据此将所有数据分为两组，一组的第index为都为1，另一组第index为都为0，第一组数字异或得到a，第二组数字异或得到b。时间复杂度为o(n),空间复杂度为o(1)。
  * （判断某一位是否为1：int result=a&(1<<i)）若结果不为0，则a的第i位为1；否则第i位为1。
  *
@@ -29,27 +31,131 @@ public class T0136SingleNumber {
 
     @Test
     public void test() {
-        System.out.println(f(6));
-        int[] nums = {1, 2, 2};
-        System.out.println(singleNumber(nums));
-    }
-
-    public int singleNumber(int[] nums) {
-        int num = 0;
-        for (int i : nums) {
-            num ^= i;
-        }
-        return num;
+        int[] nums1 = {1, 2, 2, 3, 3};
+        System.out.println(singleNumber1(nums1));
+        int[] nums2 = {1, 2, 2, 3, 5, 3};
+        System.out.println(Arrays.toString(singleNumber2(nums2)));
+        int[] nums3 = {1, 2, 2, 3, 4, 3, 5};
+        System.out.println(Arrays.toString(singleNumber3(nums3)));
+        int[] nums4 = {1, 2, 2, 2, 3, 1, 1};
+        System.out.println(singleNumber4(nums4, 3));
     }
 
     /**
-     * num的最后一位1在倒数第几位
+     * 只要一个出现一次，其余出现两次
+     * @param nums
+     * @return
+     */
+    public int singleNumber1(int[] nums) {
+        int result = 0;
+        for (int num : nums) {
+            result ^= num;
+        }
+        return result;
+    }
+
+    /**
+     * 有两个数字出现一次，其余的出现两次，找出这两个数字
+     * @param nums
+     */
+    public int[] singleNumber2(int[] nums) {
+        int temp = 0;
+        for (int num : nums) {
+            temp ^= num;
+        }
+        int index = lastBitPos(temp);
+        // 按index位为1和0进行分组
+        int a = 0;
+        int b = 0;
+        for (int num : nums) {
+            if (isBit1(num, index)) {
+                a ^= num;
+            }else {
+                b ^= num;
+            }
+        }
+        return new int[]{a, b};
+    }
+
+    public int[] singleNumber3(int[] nums) {
+        int temp = 0;
+        for (int num : nums) {
+            temp ^= num;
+        }
+        int flag = 0;
+        for (int num : nums) {
+            flag ^= f(temp ^ num);
+        }
+        int m = f(flag);
+        // 获取第一个数
+        int a = 0;
+        for (int num : nums) {
+            if (f(temp ^ num) == m) {
+                a ^= num;
+            }
+        }
+        // 将第一个数放在最后一位
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == a) {
+                nums[i] = nums[nums.length-1];
+                nums[nums.length-1] = a;
+                break;
+            }
+        }
+        // 现在对前边的数做查找2个出现1次的操作
+        int[] nums1 = new int[nums.length-1];
+        System.arraycopy(nums, 0, nums1, 0, nums1.length);
+        int[] number2 = singleNumber2(nums1);
+        int[] result = new int[3];
+        result[0] = a;
+        result[1] = number2[0];
+        result[2] = number2[1];
+        return result;
+    }
+
+    /**
+     * 一个数字出现1次，其余数字出现n次，则其余数字二进制的每一位相加必为n的倍数。
+     *
+     * @param nums
+     * @param n
+     * @return
+     */
+    public int singleNumber4(int[] nums, int n) {
+        int result = 0;
+        for (int i=0; i<32; ++i) {
+            int bits = 0;
+            for (int num : nums) {
+                bits += (num>>i) & 1;
+            }
+            result |= (bits % n) << i;
+        }
+        return result;
+    }
+
+    /**
+     * 保留数字n的二进制表示中最后一位1，而其他位都变为0
      *
      * @param num 待判断数字
-     * @return 最后一位1的倒数位置
+     * @return 转化后的数字
      */
     public static int f(int num) {
-        return num & (-num);
+        // ~(num - 1) 等价于 -num
+        return num & -num;
+    }
+
+    /**
+     * 求最后一位1的位置
+     *
+     * @param num
+     * @return
+     */
+    public static int lastBitPos(int num) {
+        int i = 0;
+        while (num % 2 == 0) {
+            num = num >> 1;
+            i++;
+        }
+        return i;
     }
 
     /**
